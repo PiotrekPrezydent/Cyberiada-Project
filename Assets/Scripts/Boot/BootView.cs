@@ -1,23 +1,75 @@
 using Boot.Systems;
+using Core.Enums;
 using GameLogic;
 using Presentation;
 using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace Boot
 {
     public class BootView : MonoBehaviour
     {
+        [SerializeField]
+        EventSystem _eventSystem;
+        static bool _isCoreSceneLoaded = false;
+
         void Awake()
         {
-            DontDestroyOnLoad(this);
+            Application.backgroundLoadingPriority = ThreadPriority.High;
             DependencyInjectorSystem.BindConfigs();
             SignalSystem.BindSignals();
 
+            DontDestroyOnLoad(this);
+            DontDestroyOnLoad(_eventSystem);
+        }
+
+        void Start()
+        {
+            SceneManager.sceneLoaded += (scene, _) =>
+            {
+                if (scene.buildIndex == Constants.CoreSceneIndex)
+                {
+                    SceneManager.UnloadSceneAsync(Constants.BootSceneIndex);
+                    _isCoreSceneLoaded = true;
+                    OnCoreSceneLoaded();
+                }
+                else if (scene.buildIndex == Constants.UISceneIndex)
+                {
+                    UIViewModel.OnUISceneLoaded();
+                }
+                else if (scene.buildIndex == Constants.MainMenuSceneIndex)
+                {
+                    MainMenuOnEntry();
+                }
+                else
+                    OnLevelLoaded(scene.buildIndex);
+            };
+
+
+            SceneManager.sceneUnloaded += (scene) =>
+            {
+                if(scene.buildIndex == Constants.BootSceneIndex)
+                {
+
+                }
+                else if (scene.buildIndex == Constants.MainMenuSceneIndex)
+                {
+                    MainMenuOnExit();
+                }
+            };
+
+            SceneManager.LoadSceneAsync(Constants.CoreSceneIndex, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(Constants.UISceneIndex, LoadSceneMode.Additive);
+            SceneManager.LoadSceneAsync(Constants.MainMenuSceneIndex, LoadSceneMode.Additive);
         }
 
         void Update()
         {
+            if (!_isCoreSceneLoaded)
+                return;
+
             PresentationViewModel.CustomUpdate();
             UIViewModel.CustomUpdate();
             GameLogicViewModel.CustomUpdate();
@@ -25,6 +77,9 @@ namespace Boot
 
         void LateUpdate()
         {
+            if (!_isCoreSceneLoaded)
+                return;
+
             PresentationViewModel.CustomLateUpdate();
             UIViewModel.CustomLateUpdate();
             GameLogicViewModel.CustomLateUpdate();
@@ -32,79 +87,54 @@ namespace Boot
 
         void FixedUpdate()
         {
+            if (!_isCoreSceneLoaded)
+                return;
+
             PresentationViewModel.CustomFixedUpdate();
             UIViewModel.CustomFixedUpdate();
             GameLogicViewModel.CustomFixedUpdate();
         }
 
-        public static void OnBootingStared()
+        public static void OnCoreSceneLoaded()
         {
-            PresentationViewModel.OnBootingStared();
-            UIViewModel.OnBootingStared();
-            GameLogicViewModel.OnBootingStared();
+            PresentationViewModel.OnCoreSceneLoaded();
+            UIViewModel.OnCoreSceneLoaded();
+            GameLogicViewModel.OnCoreSceneLoaded();
         }
 
-        public static void OnBootingEnded()
+        public static void MainMenuOnEntry()
         {
-            PresentationViewModel.OnBootingEnded();
-            UIViewModel.OnBootingEnded();
-            GameLogicViewModel.OnBootingEnded();
+            PresentationViewModel.MainMenuOnEntry();
+            UIViewModel.MainMenuOnEntry();
+            GameLogicViewModel.MainMenuOnEntry();
         }
 
-        public static void OnMainMenuEnter()
+        public static void MainMenuOnExit()
         {
-            PresentationViewModel.OnMainMenuEnter();
-            UIViewModel.OnMainMenuEnter();
-            GameLogicViewModel.OnMainMenuEnter();
+            PresentationViewModel.MainMenuOnExit();
+            UIViewModel.MainMenuOnExit();
+            GameLogicViewModel.MainMenuOnExit();
         }
 
-        public static void OnMainMenuExit()
+        public static void GameplayOnEntry()
         {
-            PresentationViewModel.OnMainMenuExit();
-            UIViewModel.OnMainMenuExit();
-            GameLogicViewModel.OnMainMenuExit();
+            PresentationViewModel.GameplayOnEntry();
+            UIViewModel.GameplayOnEntry();
+            GameLogicViewModel.GameplayOnEntry();
         }
 
-        public static void OnGameplayEnter()
+        public static void GameplayOnExit()
         {
-            PresentationViewModel.OnGameplayEnter();
-            UIViewModel.OnGameplayEnter();
-            GameLogicViewModel.OnGameplayEnter();
+            PresentationViewModel.GameplayOnExit();
+            UIViewModel.GameplayOnExit();
+            GameLogicViewModel.GameplayOnExit();
         }
 
-        public static void OnGameplayExit()
+        public static void OnLevelLoaded(int levelIndex)
         {
-            PresentationViewModel.OnGameplayExit();
-            UIViewModel.OnGameplayExit();
-            GameLogicViewModel.OnGameplayExit();
-        }
-
-        public static void OnSavingStarted()
-        {
-            PresentationViewModel.OnSavingStarted();
-            UIViewModel.OnSavingStarted();
-            GameLogicViewModel.OnSavingStarted();
-        }
-
-        public static void OnSavingEnded()
-        {
-            PresentationViewModel.OnSavingEnded();
-            UIViewModel.OnSavingEnded();
-            GameLogicViewModel.OnSavingEnded();
-        }
-
-        public static void OnLoadingStarted()
-        {
-            PresentationViewModel.OnLoadingStarted();
-            UIViewModel.OnLoadingStarted();
-            GameLogicViewModel.OnLoadingStarted();
-        }
-
-        public static void OnLoadingEnded()
-        {
-            PresentationViewModel.OnLoadingEnded();
-            UIViewModel.OnLoadingEnded();
-            GameLogicViewModel.OnLoadingEnded();
+            PresentationViewModel.OnLevelLoaded(levelIndex);
+            UIViewModel.OnLevelLoaded(levelIndex);
+            GameLogicViewModel.OnLevelLoaded(levelIndex);
         }
     }
 }

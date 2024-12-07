@@ -19,52 +19,32 @@ namespace GameLogic
 
         }
 
-        public static void OnBootingStared()
+        public static void OnCoreSceneLoaded()
         {
 
         }
 
-        public static void OnBootingEnded()
+        public static void MainMenuOnEntry()
         {
 
         }
 
-        public static void OnMainMenuEnter()
+        public static void MainMenuOnExit()
         {
 
         }
 
-        public static void OnMainMenuExit()
+        public static void GameplayOnEntry()
         {
 
         }
 
-        public static void OnGameplayEnter()
+        public static void GameplayOnExit()
         {
 
         }
 
-        public static void OnGameplayExit()
-        {
-
-        }
-
-        public static void OnSavingStarted()
-        {
-
-        }
-
-        public static void OnSavingEnded()
-        {
-
-        }
-
-        public static void OnLoadingStarted()
-        {
-
-        }
-
-        public static void OnLoadingEnded()
+        public static void OnLevelLoaded(int levelIndex)
         {
 
         }

@@ -1,7 +1,11 @@
+using UI.Systems;
+using UnityEngine;
+
 namespace UI
 {
     public static class UIViewModel
     {
+        internal static UISceneReferencesHolder UIReferences;
         public static void CustomUpdate()
         {
 
@@ -16,53 +20,38 @@ namespace UI
         {
 
         }
+        public static void OnUISceneLoaded()
+        {
+            UIReferences = GameObject.FindFirstObjectByType<UISceneReferencesHolder>();
+        }
 
-        public static void OnBootingStared()
+        public static void OnCoreSceneLoaded()
+        {
+            InputSystem.Initialize();
+        }
+
+        public static void MainMenuOnEntry()
+        {
+            //Set camera position for main menu scene
+            UIReferences.Camera.transform.position = new Vector3(0, 0, 0);
+        }
+
+        public static void MainMenuOnExit()
         {
 
         }
 
-        public static void OnBootingEnded()
+        public static void GameplayOnEntry()
         {
 
         }
 
-        public static void OnMainMenuEnter()
+        public static void GameplayOnExit()
         {
 
         }
 
-        public static void OnMainMenuExit()
-        {
-
-        }
-
-        public static void OnGameplayEnter()
-        {
-
-        }
-
-        public static void OnGameplayExit()
-        {
-
-        }
-
-        public static void OnSavingStarted()
-        {
-
-        }
-
-        public static void OnSavingEnded()
-        {
-
-        }
-
-        public static void OnLoadingStarted()
-        {
-
-        }
-
-        public static void OnLoadingEnded()
+        public static void OnLevelLoaded(int levelIndex)
         {
 
         }

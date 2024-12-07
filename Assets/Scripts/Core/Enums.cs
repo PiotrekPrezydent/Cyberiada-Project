@@ -1,6 +1,6 @@
 namespace Core.Enums
 {
-    enum GameState
+    public enum GameState
     {
         None = 9999,
         Booting = 0,
