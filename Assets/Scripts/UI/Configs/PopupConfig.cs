@@ -16,10 +16,5 @@ namespace UI.Configs
         internal AbstractPopup Get(int i) => _abstractPopups[i].GetComponent<AbstractPopup>(); 
 
         internal int Size => _abstractPopups.Length;
-
-
-        [SerializeField]
-        AbstractPopup[] _abstractPopups2 = null!;
-
     }
 }
