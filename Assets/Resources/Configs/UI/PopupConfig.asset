@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b1cf26dfee210f42bfc1d596052a6a0, type: 3}
   m_Name: PopupConfig
   m_EditorClassIdentifier: 
+  AbstractPopups:
+  - {fileID: 0}
   _abstractPopups:
   - {fileID: 9111030600662764198, guid: 91e38c40fe46c0f41aa00bbd2bf9ec82, type: 3}
-  _abstractPopups2:
-  - {fileID: 0}

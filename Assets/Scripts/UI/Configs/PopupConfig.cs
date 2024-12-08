@@ -7,8 +7,8 @@ namespace UI.Configs
     {
         //td: why the fuck unity dont see prefabs with this?
         //the below is temporary not efficient solution
-        //[SerializeField]
-        //internal AbstractPopup[] AbstractPopups;
+        [SerializeField]
+        internal AbstractPopup[] AbstractPopups;
 
         [SerializeField]
         GameObject[] _abstractPopups;

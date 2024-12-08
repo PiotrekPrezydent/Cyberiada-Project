@@ -13,7 +13,7 @@ namespace UI.Systems
         {
             if (!InputSystem.PopuMap.enabled)
                 InputSystem.PopuMap.Enable();
-
+            
 
             for (int i = 0; i < _config.Size; i++)
             {
